@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react'
 import { NexusConfig } from '@/types/nexus-config'
 import { NexusContext } from '@/context'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { LoginModal } from '@/components/login-modal'
+import { LoginModal } from '@/components/modals/login-modal'
 
 interface NexusProviderProps {
   children: ReactNode
