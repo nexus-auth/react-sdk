@@ -1,4 +1,4 @@
-import { DialogContent, Dialog, DialogTitle } from '../ui/dialog'
+import { DialogContent, Dialog } from '../ui/dialog'
 import EmailModal from './email-modal'
 import OtpModal from './otp-modal'
 import { useState } from 'react'

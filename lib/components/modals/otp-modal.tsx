@@ -1,4 +1,4 @@
-import { SendOtpCodeData, sendOtpCodeSchema, useSendOtpCode } from '@/hooks/api'
+import { SendOtpCodeData, sendOtpCodeSchema, useLoginWithEmail, useSendOtpCode } from '@/hooks/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog'
@@ -18,6 +18,7 @@ export default function OtpModal({ email }: OtpModalProps) {
   const [codeResended, setCodeResended] = useState(false)
   const [isError, setIsError] = useState(false)
 
+  const { mutateAsync: mutateResendCodeAsync } = useLoginWithEmail()
   const { mutateAsync } = useSendOtpCode()
 
   const form = useForm<SendOtpCodeData>({
@@ -46,7 +47,7 @@ export default function OtpModal({ email }: OtpModalProps) {
   }
 
   async function resendCode() {
-    await mutateAsync({ email, otpCode: form.getValues('otpCode') })
+    await mutateResendCodeAsync({ email })
     setCodeResended(true)
 
     setTimeout(() => setCodeResended(false), 30000)
