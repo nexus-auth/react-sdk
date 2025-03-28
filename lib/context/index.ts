@@ -1,1 +1,1 @@
-export * from './nexus-config-context'
+export * from './nexus-context'

@@ -1,9 +1,17 @@
+import { Button } from '@/components/ui/button'
+import { useNexus } from '@/hooks'
 import { NexusProvider } from '@/index'
 
 export default function App() {
   return (
     <NexusProvider config={{ appId: '' }}>
-      <h1>test</h1>
+      <AuthButton />
     </NexusProvider>
   )
+}
+
+function AuthButton() {
+  const { nexusLogin } = useNexus()
+
+  return <Button onClick={() => nexusLogin()}>Login</Button>
 }

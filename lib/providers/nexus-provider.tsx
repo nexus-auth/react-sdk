@@ -1,14 +1,26 @@
 import React, { ReactNode, useState } from 'react'
 import { NexusConfig } from '@/types/nexus-config'
-import { NexusConfigContext } from '@/context'
+import { NexusContext } from '@/context'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { LoginModal } from '@/components/login-modal'
 
 interface NexusProviderProps {
   children: ReactNode
-  config?: NexusConfig
+  config: NexusConfig
 }
 
-export const NexusProvider: React.FC<NexusProviderProps> = ({ children, config }) => {
-  const [nexusConfig] = useState<NexusConfig | undefined>(config)
+const queryClient = new QueryClient()
 
-  return <NexusConfigContext.Provider value={nexusConfig}>{children}</NexusConfigContext.Provider>
+export const NexusProvider: React.FC<NexusProviderProps> = ({ children, config }) => {
+  const [nexusConfig] = useState<NexusConfig>(config)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <NexusContext.Provider value={{ ...nexusConfig, setIsModalOpen }}>
+        <LoginModal open={isModalOpen} setOpen={setIsModalOpen} />
+        {children}
+      </NexusContext.Provider>
+    </QueryClientProvider>
+  )
 }

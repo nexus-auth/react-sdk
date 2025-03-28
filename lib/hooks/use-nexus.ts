@@ -1,11 +1,16 @@
-import { NexusConfigContext } from '@/context'
-import { NexusConfig } from '@/types/nexus-config'
 import { useContext } from 'react'
+import { NexusContext } from '@/context'
 
-export const useNexus = (): NexusConfig => {
-  const context = useContext(NexusConfigContext)
+export function useNexus() {
+  const context = useContext(NexusContext)
+
   if (!context) {
     throw new Error('useNexus must be used within a NexusProvider')
   }
-  return context
+
+  const { setIsModalOpen } = context
+
+  return {
+    nexusLogin: () => setIsModalOpen(true)
+  }
 }
