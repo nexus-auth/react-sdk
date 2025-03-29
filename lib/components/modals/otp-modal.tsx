@@ -18,6 +18,8 @@ interface OtpModalProps {
 export default function OtpModal({ email }: OtpModalProps) {
   const [codeResended, setCodeResended] = useState(false)
   const [isError, setIsError] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+
   const context = useContext(NexusContext)
 
   const { mutateAsync: mutateResendCodeAsync } = useLoginWithEmail()
@@ -41,8 +43,13 @@ export default function OtpModal({ email }: OtpModalProps) {
     if (status !== HttpStatusCode.Created) {
       return handleInvalidCode()
     }
-    context?.setIsAuthenticated(true)
-    context?.closeLoginModal()
+
+    setIsSuccess(true)
+
+    setTimeout(() => {
+      context?.setIsAuthenticated(true)
+      context?.closeLoginModal()
+    }, 2000)
   }
 
   function handleInvalidCode() {
@@ -108,6 +115,12 @@ export default function OtpModal({ email }: OtpModalProps) {
       return (
         <DialogDescription className="text-center">
           <span className="text-red-600">Invalid or expired validation code.</span>
+        </DialogDescription>
+      )
+    } else if (isSuccess) {
+      return (
+        <DialogDescription className="text-center">
+          <span className="text-green-600">Success!</span>
         </DialogDescription>
       )
     }
