@@ -11,10 +11,10 @@ export default function App() {
 }
 
 function AuthPage() {
-  const { nexusLogin, isAuthenticated } = useNexus()
+  const { nexusLogin, nexusLogout, isAuthenticated } = useNexus()
 
   return isAuthenticated ? (
-    <h1>Authtenticated</h1>
+    <Button onClick={() => nexusLogout()}>Logout</Button>
   ) : (
     <Button onClick={() => nexusLogin()}>Login</Button>
   )

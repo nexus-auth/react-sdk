@@ -1,7 +1,12 @@
-import { createContext } from 'react'
-
 export interface NexusConfig {
   appId: string
 }
 
-export const NexusContext = createContext<NexusConfig | undefined>(undefined)
+export interface NexusContextValue extends NexusConfig {
+  openLoginModal: () => void
+  closeLoginModal: () => void
+  isLoginModalOpen: boolean
+  isAuthenticated: boolean
+  setIsAuthenticated: (value: boolean) => void
+  logout: () => Promise<void>
+}

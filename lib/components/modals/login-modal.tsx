@@ -8,9 +8,7 @@ export function LoginModal() {
   const [email, setEmail] = useState('')
   const context = useContext(NexusContext)
 
-  if (!context) {
-    throw new Error('LoginModal must be used within a NexusProvider')
-  }
+  if (!context) return
 
   const { isLoginModalOpen, closeLoginModal } = context
 

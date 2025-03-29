@@ -75,7 +75,7 @@ export default function OtpModal({ email }: OtpModalProps) {
             render={({ field }) => (
               <FormItem className="flex justify-center">
                 <FormControl onChange={onSubmit}>
-                  <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
+                  <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS} autoFocus={true} {...field}>
                     <InputOTPGroup>
                       {Array(6)
                         .fill(0)
