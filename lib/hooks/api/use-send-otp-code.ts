@@ -13,7 +13,7 @@ export type SendOtpCodeData = z.infer<typeof sendOtpCodeSchema>
 export function useSendOtpCode() {
   return useMutation({
     mutationFn: async (payload: SendOtpCodeData) => {
-      return axios.post<ApiResponse>('/auth/login/verify-otp', payload)
+      return axios.post<ApiResponse>('/auth/email/verify-code', payload)
     }
   })
 }

@@ -12,7 +12,7 @@ export type LoginWithEmailData = z.infer<typeof loginWithEmailSchema>
 export function useLoginWithEmail() {
   return useMutation({
     mutationFn: async (payload: LoginWithEmailData) => {
-      return axios.post<ApiResponse>('/auth/login', payload)
+      return axios.post<ApiResponse>('/auth/email/send-code', payload)
     }
   })
 }
