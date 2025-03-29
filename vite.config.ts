@@ -14,7 +14,17 @@ export default defineConfig({
     sourcemap: true,
     emptyOutDir: true
   },
-  plugins: [react(), libInjectCss(), dts({ include: ['lib'] })],
+  plugins: [
+    react(),
+    libInjectCss(),
+    dts({
+      include: ['lib'],
+      insertTypesEntry: true,
+      outDir: 'dist',
+      tsconfigPath: './tsconfig.app.json',
+      rollupTypes: true
+    })
+  ],
   css: {
     postcss: {
       plugins: [tailwindcss]

@@ -4,11 +4,14 @@
   "type": "module",
   "main": "./dist/react-auth.js",
   "module": "./dist/react-auth.js",
+  "types": "./dist/react-auth.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "dist/**/*.d.ts"
   ],
   "exports": {
     ".": {
+      "types": "./dist/react-auth.d.ts",
       "import": "./dist/react-auth.js",
       "require": "./dist/react-auth.js"
     },
