@@ -1,19 +1,19 @@
 {
-  "name": "@nexus/react-auth",
-  "version": "1.0.0",
+  "name": "@nexus-auth/react-sdk",
+  "version": "0.0.3",
   "type": "module",
-  "main": "./dist/react-auth.js",
-  "module": "./dist/react-auth.js",
-  "types": "./dist/react-auth.d.ts",
+  "main": "./dist/react-sdk.js",
+  "module": "./dist/react-sdk.js",
+  "types": "./dist/react-sdk.d.ts",
   "files": [
     "dist",
     "dist/**/*.d.ts"
   ],
   "exports": {
     ".": {
-      "types": "./dist/react-auth.d.ts",
-      "import": "./dist/react-auth.js",
-      "require": "./dist/react-auth.js"
+      "types": "./dist/react-sdk.d.ts",
+      "import": "./dist/react-sdk.js",
+      "require": "./dist/react-sdk.js"
     },
     "./dist/style.css": "./dist/index.css"
   },
@@ -61,5 +61,12 @@
     "vite": "^6.1.0",
     "vite-plugin-dts": "^4.5.0",
     "vite-plugin-lib-inject-css": "^2.2.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -11,6 +11,15 @@ export default defineConfig({
       entry: resolve(__dirname, 'lib/index.ts'),
       formats: ['es']
     },
+    rollupOptions: {
+      external: ['react', 'react-dom'],
+      output: {
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM'
+        }
+      }
+    },
     sourcemap: true,
     emptyOutDir: true
   },
