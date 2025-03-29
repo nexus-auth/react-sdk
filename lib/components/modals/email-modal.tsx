@@ -1,4 +1,4 @@
-import { DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog'
+import { DialogDescription, DialogHeader, DialogTitle } from '../ui/dialog'
 import { Form, FormControl, FormField, FormItem } from '../ui/form'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
@@ -6,6 +6,7 @@ import { useLoginWithEmail, LoginWithEmailData, loginWithEmailSchema } from '@/h
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { HttpStatusCode } from 'axios'
+import { Loader2 } from 'lucide-react'
 
 interface EmailModalProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>
@@ -47,23 +48,21 @@ export default function EmailModal({ setEmail }: EmailModalProps) {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormControl>
-                  <Input placeholder="Email address" {...field} />
-                </FormControl>
+                <div className="relative">
+                  <FormControl>
+                    <Input placeholder="Email address" {...field} className="pr-20" />
+                  </FormControl>
+                  <Button
+                    type="submit"
+                    className="absolute top-1/2 right-0 -translate-y-1/2 px-3 py-1 text-sm rounded-l-none min-w-[80px] flex justify-center"
+                    disabled={!form.formState.isValid}
+                  >
+                    {isPending ? <Loader2 className="animate-spin" /> : 'Submit'}
+                  </Button>
+                </div>
               </FormItem>
             )}
           />
-
-          <DialogFooter className="flex flex-col gap-2 sm:flex-row">
-            <Button
-              type="submit"
-              className="w-full"
-              isLoading={isPending}
-              disabled={!form.formState.isValid}
-            >
-              Submit
-            </Button>
-          </DialogFooter>
         </form>
       </Form>
     </div>
