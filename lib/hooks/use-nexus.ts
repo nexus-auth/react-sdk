@@ -8,9 +8,7 @@ export function useNexus() {
     throw new Error('useNexus must be used within a NexusProvider')
   }
 
-  const { setIsModalOpen } = context
-
   return {
-    nexusLogin: () => setIsModalOpen(true)
+    nexusLogin: context.openLoginModal
   }
 }

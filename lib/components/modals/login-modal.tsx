@@ -1,26 +1,28 @@
+import { NexusContext } from '@/context'
 import { DialogContent, Dialog } from '../ui/dialog'
 import EmailModal from './email-modal'
 import OtpModal from './otp-modal'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
-interface LoginModalProps {
-  open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export function LoginModal({ open, setOpen }: LoginModalProps) {
+export function LoginModal() {
   const [email, setEmail] = useState('')
+  const context = useContext(NexusContext)
 
-  function onOpenChange(open: boolean) {
-    setOpen(open)
+  if (!context) {
+    throw new Error('LoginModal must be used within a NexusProvider')
+  }
 
-    if (!open) {
+  const { isLoginModalOpen, closeLoginModal } = context
+
+  function handleOpenChange(isOpen: boolean) {
+    if (!isOpen) {
+      closeLoginModal()
       setEmail('')
     }
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={isLoginModalOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[375px]">
         {email ? <OtpModal email={email} /> : <EmailModal setEmail={setEmail} />}
       </DialogContent>

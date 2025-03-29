@@ -9,16 +9,32 @@ interface NexusProviderProps {
   config: NexusConfig
 }
 
+export interface NexusContextValue extends NexusConfig {
+  openLoginModal: () => void
+  closeLoginModal: () => void
+  isLoginModalOpen: boolean
+}
+
 const queryClient = new QueryClient()
 
 export const NexusProvider: React.FC<NexusProviderProps> = ({ children, config }) => {
   const [nexusConfig] = useState<NexusConfig>(config)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  const openLoginModal = () => setIsLoginModalOpen(true)
+  const closeLoginModal = () => setIsLoginModalOpen(false)
+
+  const contextValue: NexusContextValue = {
+    ...nexusConfig,
+    openLoginModal,
+    closeLoginModal,
+    isLoginModalOpen
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NexusContext.Provider value={{ ...nexusConfig, setIsModalOpen }}>
-        <LoginModal open={isModalOpen} setOpen={setIsModalOpen} />
+      <NexusContext.Provider value={contextValue}>
+        <LoginModal />
         {children}
       </NexusContext.Provider>
     </QueryClientProvider>

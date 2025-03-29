@@ -1,9 +1,4 @@
-import { NexusConfig } from '@/types/nexus-config'
+import { NexusContextValue } from '@/providers'
 import { createContext } from 'react'
 
-export const NexusContext = createContext<
-  | (NexusConfig & {
-      setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
-    })
-  | undefined
->(undefined)
+export const NexusContext = createContext<NexusContextValue | undefined>(undefined)
