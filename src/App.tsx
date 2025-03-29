@@ -4,7 +4,7 @@ import { NexusProvider } from '@/index'
 
 export default function App() {
   return (
-    <NexusProvider config={{ appId: '' }}>
+    <NexusProvider config={{ appId: '', defaultOpen: true }}>
       <AuthPage />
     </NexusProvider>
   )

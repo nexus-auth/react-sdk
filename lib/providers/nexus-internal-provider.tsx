@@ -3,7 +3,7 @@ import { NexusContext } from '@/context'
 import { useLogout } from '@/hooks/api'
 import { NexusConfig, NexusContextValue } from '@/types/nexus-config'
 import { HttpStatusCode } from 'axios'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 interface NexusInternalProviderProps {
   children: ReactNode
@@ -27,6 +27,12 @@ export default function NexusInternalProvider({ children, config }: NexusInterna
       setIsAuthenticated(false)
     }
   }
+
+  useEffect(() => {
+    if (config.defaultOpen) {
+      setIsLoginModalOpen(true)
+    }
+  }, [config.defaultOpen])
 
   const contextValue: NexusContextValue = {
     ...nexusConfig,

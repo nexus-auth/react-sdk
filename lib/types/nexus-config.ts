@@ -1,5 +1,6 @@
 export interface NexusConfig {
   appId: string
+  defaultOpen?: boolean
 }
 
 export interface NexusContextValue extends NexusConfig {
