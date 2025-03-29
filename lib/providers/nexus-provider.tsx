@@ -13,6 +13,8 @@ export interface NexusContextValue extends NexusConfig {
   openLoginModal: () => void
   closeLoginModal: () => void
   isLoginModalOpen: boolean
+  isAuthenticated: boolean
+  setIsAuthenticated: (value: boolean) => void
 }
 
 const queryClient = new QueryClient()
@@ -20,6 +22,7 @@ const queryClient = new QueryClient()
 export const NexusProvider: React.FC<NexusProviderProps> = ({ children, config }) => {
   const [nexusConfig] = useState<NexusConfig>(config)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   const openLoginModal = () => setIsLoginModalOpen(true)
   const closeLoginModal = () => setIsLoginModalOpen(false)
@@ -28,7 +31,9 @@ export const NexusProvider: React.FC<NexusProviderProps> = ({ children, config }
     ...nexusConfig,
     openLoginModal,
     closeLoginModal,
-    isLoginModalOpen
+    isLoginModalOpen,
+    isAuthenticated,
+    setIsAuthenticated
   }
 
   return (

@@ -5,10 +5,11 @@ import { DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Check } from 'lucide-react'
 import { HttpStatusCode } from 'axios'
 import { cn } from '@/utils'
+import { NexusContext } from '@/context'
 
 interface OtpModalProps {
   email: string
@@ -17,6 +18,7 @@ interface OtpModalProps {
 export default function OtpModal({ email }: OtpModalProps) {
   const [codeResended, setCodeResended] = useState(false)
   const [isError, setIsError] = useState(false)
+  const context = useContext(NexusContext)
 
   const { mutateAsync: mutateResendCodeAsync } = useLoginWithEmail()
   const { mutateAsync } = useSendOtpCode()
@@ -37,8 +39,10 @@ export default function OtpModal({ email }: OtpModalProps) {
     const { status } = await mutateAsync({ email, otpCode })
 
     if (status !== HttpStatusCode.Created) {
-      handleInvalidCode()
+      return handleInvalidCode()
     }
+    context?.setIsAuthenticated(true)
+    context?.closeLoginModal()
   }
 
   function handleInvalidCode() {
