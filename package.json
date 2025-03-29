@@ -2,20 +2,20 @@
   "name": "@nexus-auth/react-sdk",
   "version": "0.0.3",
   "type": "module",
-  "main": "./dist/react-sdk.js",
-  "module": "./dist/react-sdk.js",
-  "types": "./dist/react-sdk.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "dist/**/*.d.ts"
   ],
   "exports": {
     ".": {
-      "types": "./dist/react-sdk.d.ts",
-      "import": "./dist/react-sdk.js",
-      "require": "./dist/react-sdk.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
-    "./dist/style.css": "./dist/index.css"
+    "./style.css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",

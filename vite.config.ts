@@ -9,11 +9,15 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'lib/index.ts'),
-      formats: ['es']
+      formats: ['es', 'cjs'],
+      fileName: (format) => (format === 'cjs' ? 'index.cjs' : 'index.js')
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
       output: {
+        entryFileNames: '[name].js',
+        chunkFileNames: '[name].js',
+        assetFileNames: '[name].[ext]',
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM'
