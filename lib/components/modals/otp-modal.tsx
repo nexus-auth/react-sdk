@@ -37,19 +37,18 @@ export default function OtpModal({ email }: OtpModalProps) {
     const { status } = await mutateAsync({ email, otpCode })
 
     if (status !== HttpStatusCode.Created) {
-      setIsError(true)
-
-      setTimeout(() => {
-        setIsError(false)
-      }, 3000)
-      return
+      handleInvalidCode()
     }
+  }
+
+  function handleInvalidCode() {
+    setIsError(true)
+    setTimeout(() => setIsError(false), 3000)
   }
 
   async function resendCode() {
     await mutateResendCodeAsync({ email })
     setCodeResended(true)
-
     setTimeout(() => setCodeResended(false), 30000)
   }
 
@@ -74,30 +73,18 @@ export default function OtpModal({ email }: OtpModalProps) {
                 <FormControl onChange={onSubmit}>
                   <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
                     <InputOTPGroup>
-                      <InputOTPSlot
-                        className={cn(isError && 'ring-0 border-2 border-red-500 border-r-0')}
-                        index={0}
-                      />
-                      <InputOTPSlot
-                        className={cn(isError && 'ring-0 border-2 border-red-500 border-r-0')}
-                        index={1}
-                      />
-                      <InputOTPSlot
-                        className={cn(isError && 'ring-0 border-2 border-red-500 border-r-0')}
-                        index={2}
-                      />
-                      <InputOTPSlot
-                        className={cn(isError && 'ring-0 border-2 border-red-500 border-r-0')}
-                        index={3}
-                      />
-                      <InputOTPSlot
-                        className={cn(isError && 'ring-0 border-2 border-red-500 border-r-0')}
-                        index={4}
-                      />
-                      <InputOTPSlot
-                        className={cn(isError && 'ring-0 border-2 border-red-500')}
-                        index={5}
-                      />
+                      {Array(6)
+                        .fill(0)
+                        .map((_, index) => (
+                          <InputOTPSlot
+                            key={index}
+                            className={cn(
+                              isError && 'ring-0 border-2 border-red-500',
+                              index < 5 && isError && 'border-r-0'
+                            )}
+                            index={index}
+                          />
+                        ))}
                     </InputOTPGroup>
                   </InputOTP>
                 </FormControl>
@@ -106,29 +93,37 @@ export default function OtpModal({ email }: OtpModalProps) {
             )}
           />
 
-          {isError ? (
-            <DialogDescription className="text-center">
-              <span className="text-red-600">Invalid or expired validation code.</span>
-            </DialogDescription>
-          ) : (
-            <DialogDescription className="mt-4 text-center flex justify-center items-center gap-2">
-              <span>Didn't get an email?</span>
-              {codeResended ? (
-                <span className="flex items-center gap-x-1 bg-black text-white rounded p-1 px-2">
-                  <Check size={12} /> <span>Code sent</span>
-                </span>
-              ) : (
-                <span
-                  className="font-semibold underline cursor-pointer hover:text-black"
-                  onClick={resendCode}
-                >
-                  Resend code
-                </span>
-              )}
-            </DialogDescription>
-          )}
+          {renderModalFooter()}
         </form>
       </Form>
     </div>
   )
+
+  function renderModalFooter() {
+    if (isError) {
+      return (
+        <DialogDescription className="text-center">
+          <span className="text-red-600">Invalid or expired validation code.</span>
+        </DialogDescription>
+      )
+    }
+
+    return (
+      <DialogDescription className="mt-4 text-center flex justify-center items-center gap-2">
+        <span>Didn't get an email?</span>
+        {codeResended ? (
+          <span className="flex items-center gap-x-1 bg-black text-white rounded p-1 px-2">
+            <Check size={12} /> <span>Code sent</span>
+          </span>
+        ) : (
+          <span
+            className="font-semibold underline cursor-pointer hover:text-black"
+            onClick={resendCode}
+          >
+            Resend code
+          </span>
+        )}
+      </DialogDescription>
+    )
+  }
 }
