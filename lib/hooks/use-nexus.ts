@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { NexusContext } from '@/context'
-import { useValidateSession } from './api'
+import { useUser, useValidateSession } from './api'
 
 export function useNexus() {
   const context = useContext(NexusContext)
@@ -12,12 +12,17 @@ export function useNexus() {
   const { setIsAuthenticated } = context
 
   const { data: sessionData, isLoading } = useValidateSession()
+  const { data: userData } = useUser()
 
   useEffect(() => {
     if (isLoading || !sessionData) return
 
     setIsAuthenticated(!!sessionData.data)
-  }, [sessionData, isLoading, setIsAuthenticated])
+
+    if (userData?.data) {
+      context.setUser(userData.data)
+    }
+  }, [sessionData, isLoading, setIsAuthenticated, userData?.data, context])
 
   const { nexusLogin, isAuthenticated, logout, user } = context
 
