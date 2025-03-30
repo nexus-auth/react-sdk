@@ -15,14 +15,16 @@ export function useNexus() {
 
   useEffect(() => {
     if (isLoading || !sessionData) return
+
     setIsAuthenticated(!!sessionData.data)
   }, [sessionData, isLoading, setIsAuthenticated])
 
-  const { nexusLogin, isAuthenticated, logout } = context
+  const { nexusLogin, isAuthenticated, logout, user } = context
 
   return {
     nexusLogin,
     nexusLogout: logout,
-    isAuthenticated
+    isAuthenticated,
+    user
   }
 }

@@ -1,3 +1,6 @@
+import { Dispatch, SetStateAction } from 'react'
+import { User } from './user'
+
 export interface NexusConfig {
   appId: string
 }
@@ -16,4 +19,6 @@ export interface NexusContextValue extends NexusConfig {
   logout: () => Promise<void>
   closable: boolean
   hideOverlay: boolean
+  user: User | undefined
+  setUser: Dispatch<SetStateAction<User | undefined>>
 }
