@@ -1,6 +1,6 @@
 {
   "name": "@nexus-auth/react-sdk",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -13,9 +13,9 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/index.css"
   },
   "scripts": {
     "dev": "vite",
