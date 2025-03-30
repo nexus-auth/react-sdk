@@ -18,10 +18,10 @@ export function useNexus() {
     setIsAuthenticated(!!sessionData.data)
   }, [sessionData, isLoading, setIsAuthenticated])
 
-  const { openLoginModal, isAuthenticated, logout } = context
+  const { nexusLogin, isAuthenticated, logout } = context
 
   return {
-    nexusLogin: openLoginModal,
+    nexusLogin,
     nexusLogout: logout,
     isAuthenticated
   }

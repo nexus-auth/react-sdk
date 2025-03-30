@@ -11,7 +11,7 @@ export function LoginModal() {
 
   if (!context) return
 
-  const { isLoginModalOpen, closeLoginModal, defaultOpen } = context
+  const { isLoginModalOpen, closeLoginModal, hideOverlay, closable } = context
 
   function handleOpenChange(isOpen: boolean) {
     if (!isOpen) {
@@ -21,14 +21,10 @@ export function LoginModal() {
   }
 
   return (
-    <Dialog
-      defaultOpen={defaultOpen}
-      open={isLoginModalOpen}
-      onOpenChange={!defaultOpen ? handleOpenChange : undefined}
-    >
+    <Dialog open={isLoginModalOpen} onOpenChange={closable ? handleOpenChange : undefined}>
       <DialogContent
-        className={cn('sm:max-w-[375px]', defaultOpen && '[&>button]:hidden')}
-        showOverlay={!defaultOpen}
+        className={cn('sm:max-w-[375px]', !closable && '[&>button]:hidden')}
+        showOverlay={!hideOverlay}
       >
         {email ? <OtpModal email={email} /> : <EmailModal setEmail={setEmail} />}
       </DialogContent>

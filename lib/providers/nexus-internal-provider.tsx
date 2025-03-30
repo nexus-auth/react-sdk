@@ -1,9 +1,9 @@
 import { LoginModal } from '@/components/modals/login-modal'
 import { NexusContext } from '@/context'
 import { useLogout } from '@/hooks/api'
-import { NexusConfig, NexusContextValue } from '@/types/nexus-config'
+import { NexusConfig, NexusContextValue, NexusLoginOptions } from '@/types/nexus-config'
 import { HttpStatusCode } from 'axios'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 interface NexusInternalProviderProps {
   children: ReactNode
@@ -14,8 +14,21 @@ export default function NexusInternalProvider({ children, config }: NexusInterna
   const [nexusConfig] = useState<NexusConfig>(config)
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [hideOverlay, setHideOverlay] = useState(false)
+  const [isClosable, setIsClosable] = useState(true)
 
-  const openLoginModal = () => setIsLoginModalOpen(true)
+  const nexusLogin = (options?: NexusLoginOptions) => {
+    if (options) {
+      if (options.closable !== undefined) {
+        setIsClosable(options.closable)
+      }
+
+      if (options.hideOverlay !== undefined) {
+        setHideOverlay(options.hideOverlay)
+      }
+    }
+    setIsLoginModalOpen(true)
+  }
   const closeLoginModal = () => setIsLoginModalOpen(false)
 
   const { mutateAsync: mutateLogoutAsync } = useLogout()
@@ -28,20 +41,16 @@ export default function NexusInternalProvider({ children, config }: NexusInterna
     }
   }
 
-  useEffect(() => {
-    if (config.defaultOpen) {
-      setIsLoginModalOpen(true)
-    }
-  }, [config.defaultOpen])
-
   const contextValue: NexusContextValue = {
     ...nexusConfig,
-    openLoginModal,
+    nexusLogin,
     closeLoginModal,
     isLoginModalOpen,
     isAuthenticated,
     setIsAuthenticated,
-    logout
+    logout,
+    hideOverlay,
+    closable: isClosable
   }
 
   return (

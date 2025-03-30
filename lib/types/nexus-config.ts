@@ -1,13 +1,19 @@
 export interface NexusConfig {
   appId: string
-  defaultOpen?: boolean
+}
+
+export interface NexusLoginOptions {
+  closable?: boolean
+  hideOverlay?: boolean
 }
 
 export interface NexusContextValue extends NexusConfig {
-  openLoginModal: () => void
+  nexusLogin: (options?: NexusLoginOptions) => void
   closeLoginModal: () => void
   isLoginModalOpen: boolean
   isAuthenticated: boolean
   setIsAuthenticated: (value: boolean) => void
   logout: () => Promise<void>
+  closable: boolean
+  hideOverlay: boolean
 }
