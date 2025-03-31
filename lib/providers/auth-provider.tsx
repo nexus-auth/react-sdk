@@ -9,6 +9,7 @@ interface Props {
 }
 
 export default function AuthProvider({ children }: Props) {
+  const [ready, setReady] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<User | undefined>(undefined)
 
@@ -27,7 +28,9 @@ export default function AuthProvider({ children }: Props) {
     setIsAuthenticated,
     logout,
     user,
-    setUser
+    setUser,
+    ready,
+    setReady
   }
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

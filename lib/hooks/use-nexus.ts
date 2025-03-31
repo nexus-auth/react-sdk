@@ -11,7 +11,7 @@ export function useNexus() {
     throw new Error('useNexus must be used within a NexusProvider')
   }
 
-  const { setIsAuthenticated } = authContext
+  const { setIsAuthenticated, setUser, setReady } = authContext
 
   const { data: sessionData, isLoading } = useValidateSession()
   const { data: userData } = useUser()
@@ -19,20 +19,24 @@ export function useNexus() {
   useEffect(() => {
     if (isLoading || !sessionData) return
 
-    setIsAuthenticated(!!sessionData.data)
+    const isValid = !!sessionData.data
+    setIsAuthenticated(isValid)
 
-    if (userData?.data) {
-      authContext.setUser(userData.data)
+    if (isValid && userData?.data) {
+      setUser(userData.data)
     }
-  }, [sessionData, isLoading, setIsAuthenticated, userData?.data, authContext])
 
-  const { isAuthenticated, logout, user } = authContext
+    setReady(true)
+  }, [sessionData, isLoading, setIsAuthenticated, setUser, setReady, userData?.data])
+
+  const { isAuthenticated, logout, user, ready } = authContext
   const { nexusLogin } = uiContext
 
   return {
     nexusLogin,
     nexusLogout: logout,
     isAuthenticated,
-    user
+    user,
+    ready
   }
 }
