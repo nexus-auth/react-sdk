@@ -1,9 +1,10 @@
 import React, { ReactNode, useState } from 'react'
 import { NexusConfig } from '@/types/nexus-config'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import NexusInternalProvider from './nexus-internal-provider'
 import UIProvider from './ui-provider'
 import { LoginModal } from '@/components/modals/login-modal'
+import AuthProvider from './auth-provider'
+import { NexusContext } from '@/context/nexus-context'
 
 interface NexusProviderProps {
   children: ReactNode
@@ -21,14 +22,18 @@ export const NexusProvider: React.FC<NexusProviderProps> = ({ children, config }
     })
   )
 
+  const [nexusConfig] = useState<NexusConfig>(config)
+
   return (
     <QueryClientProvider client={queryClient}>
-      <NexusInternalProvider config={config}>
-        <UIProvider>
-          <LoginModal />
-          {children}
-        </UIProvider>
-      </NexusInternalProvider>
+      <NexusContext.Provider value={nexusConfig}>
+        <AuthProvider>
+          <UIProvider>
+            <LoginModal />
+            {children}
+          </UIProvider>
+        </AuthProvider>
+      </NexusContext.Provider>
     </QueryClientProvider>
   )
 }

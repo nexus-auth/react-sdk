@@ -15,8 +15,8 @@ import { useContext, useState } from 'react'
 import { Check } from 'lucide-react'
 import { HttpStatusCode } from 'axios'
 import { cn } from '@/utils'
-import { NexusContext } from '@/context'
 import { UIContext } from '@/context/ui-context'
+import { AuthContext } from '@/context/auth-context'
 
 interface OtpModalProps {
   email: string
@@ -27,8 +27,8 @@ export default function OtpModal({ email }: OtpModalProps) {
   const [isError, setIsError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
-  const nexusContext = useContext(NexusContext)
   const uiContext = useContext(UIContext)
+  const authContext = useContext(AuthContext)
 
   const { mutateAsync: mutateResendCodeAsync } = useLoginWithEmail()
   const { mutateAsync } = useSendOtpCode()
@@ -58,11 +58,11 @@ export default function OtpModal({ email }: OtpModalProps) {
     const userData = await fetchUser()
 
     if (userData.data) {
-      nexusContext?.setUser(userData.data.data)
+      authContext?.setUser(userData.data.data)
     }
 
     setTimeout(() => {
-      nexusContext?.setIsAuthenticated(true)
+      authContext?.setIsAuthenticated(true)
       uiContext?.closeLoginModal()
     }, 2000)
   }

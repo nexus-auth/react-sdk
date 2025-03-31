@@ -1,17 +1,14 @@
-import { NexusContext } from '@/context'
+import { AuthContext, AuthContextType } from '@/context/auth-context'
 import { useLogout } from '@/hooks/api'
-import { NexusConfig, NexusContextValue } from '@/types/nexus-config'
 import { User } from '@/types/user'
 import { HttpStatusCode } from 'axios'
-import { ReactNode, useState } from 'react'
+import { useState } from 'react'
 
-interface NexusInternalProviderProps {
-  children: ReactNode
-  config: NexusConfig
+interface Props {
+  children: React.ReactNode
 }
 
-export default function NexusInternalProvider({ children, config }: NexusInternalProviderProps) {
-  const [nexusConfig] = useState<NexusConfig>(config)
+export default function AuthProvider({ children }: Props) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState<User | undefined>(undefined)
 
@@ -25,8 +22,7 @@ export default function NexusInternalProvider({ children, config }: NexusInterna
     }
   }
 
-  const contextValue: NexusContextValue = {
-    ...nexusConfig,
+  const contextValue: AuthContextType = {
     isAuthenticated,
     setIsAuthenticated,
     logout,
@@ -34,5 +30,5 @@ export default function NexusInternalProvider({ children, config }: NexusInterna
     setUser
   }
 
-  return <NexusContext.Provider value={contextValue}>{children}</NexusContext.Provider>
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 }
